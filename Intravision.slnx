@@ -1,3 +1,7 @@
 <Solution>
+  <Folder Name="/tests/">
+    <Project Path="tests/ChangeCalculatorChecks/ChangeCalculatorChecks.csproj" />
+    <Project Path="tests/ServiceBoundaryChecks/ServiceBoundaryChecks.csproj" />
+  </Folder>
   <Project Path="Intravision/Intravision.csproj" />
 </Solution>

@@ -4,6 +4,7 @@ using Intravision.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Intravision.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260907133237_AddCustomerWallets")]
+    partial class AddCustomerWallets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,9 +89,6 @@ namespace Intravision.Data.Migrations
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)");
 
-                    b.Property<bool>("KeepChange")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ReceiptJson")
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)");
@@ -113,6 +113,7 @@ namespace Intravision.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -138,6 +139,8 @@ namespace Intravision.Data.Migrations
 
                     b.ToTable("Drinks", null, t =>
                         {
+                            t.HasCheckConstraint("CK_Drinks_ImagePath", "LEN(LTRIM(RTRIM([ImagePath]))) > 0");
+
                             t.HasCheckConstraint("CK_Drinks_Name", "LEN(LTRIM(RTRIM([Name]))) > 0");
 
                             t.HasCheckConstraint("CK_Drinks_Price", "[Price] > 0");
